@@ -1,17 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { sendRequestFriend, registerUser, loginUser, acceptRequestFriend, logout } from './authActions'
+import { registerUser, loginUser, logout } from './authActions'
 
 // Implementar localstorage en el initial state
 
 const initialStateOnLocalStorage = JSON.parse(window.localStorage.getItem('userInfo'))
 
 const initialState = {
-  loading: false,
+  loadingUser: false,
   userInfo: initialStateOnLocalStorage || null,
   userSessionId: null,
-  error: null,
-  successRegister: false,
-  successLogin: false
+  errorUser: null,
+  successUserSingIn: false,
+  successUserLogIn: false
 }
 
 const authSlice = createSlice({
@@ -20,72 +20,46 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers: {
     [registerUser.pending]: (state) => {
-      state.loading = true
-      state.error = null
+      state.loadingUser = true
+      state.errorUser = null
     },
     [registerUser.fulfilled]: (state, { payload }) => {
-      state.loading = false
-      state.successRegister = true
+      state.loadingUser = false
+      state.successUserSingIn = true
     },
     [registerUser.rejected]: (state, { payload }) => {
-      state.loading = false
-      state.error = payload
+      state.loadingUser = false
+      state.errorUser = payload
     },
     [loginUser.pending]: (state) => {
-      state.loading = true
-      state.error = null
+      state.loadingUser = true
+      state.errorUser = null
     },
     [loginUser.fulfilled]: (state, { payload }) => {
-      state.loading = false
-      state.successLogin = true
+      state.loadingUser = false
+      state.successUserLogIn = true
       state.userInfo = payload
       window.localStorage.setItem('userInfo', JSON.stringify(payload))
     },
     [loginUser.rejected]: (state, action) => {
-      state.loading = false
-      state.error = action
-    },
-    [sendRequestFriend.pending]: (state) => {
-      state.loading = true
-      state.error = null
-    },
-    [sendRequestFriend.fulfilled]: (state, { payload }) => {
-      state.loading = false
-      state.successLogin = true
-    },
-    [sendRequestFriend.rejected]: (state, action) => {
-      state.loading = false
-      state.error = action
-    },
-    [acceptRequestFriend.pending]: (state) => {
-      state.loading = true
-      state.error = null
-    },
-    [acceptRequestFriend.fulfilled]: (state, { payload }) => {
-      state.loading = false
-      state.successLogin = true
-      console.log(payload)
-      state.userInfo.conversations.push(payload.conversation)
-    },
-    [acceptRequestFriend.rejected]: (state, action) => {
-      state.loading = false
-      state.error = action
+      state.loadingUser = false
+      state.errorUser = action
     },
     [logout.pending]: (state) => {
-      state.loading = true
-      state.error = null
+      state.loadingUser = true
+      state.errorUser = null
     },
     [logout.fulfilled]: (state, { payload }) => {
-      state.loading = false
+      state.loadingUser = false
       state.userInfo = null
-      state.successLogin = false
+      state.successUserLogIn = false
       state.userSessionId = false
-      state.successRegister = false
+      state.successUserSingIn = false
       window.localStorage.removeItem('userInfo')
     },
     [logout.rejected]: (state, action) => {
-      state.loading = false
-      state.error = action
+      state.loadingUser = false
+      state.errorUser = action
     }
 
   }

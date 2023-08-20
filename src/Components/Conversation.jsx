@@ -1,18 +1,26 @@
 import React, { useEffect } from 'react'
-import { CardBody, Spacer } from '@nextui-org/react'
+import { CardBody, Spinner } from '@nextui-org/react'
 import PropTypes from 'prop-types'
 import Message from './Message'
+import { useDispatch, useSelector } from 'react-redux'
+import { getMessages } from '../features/messages/messagesActions'
+import LoadingConversation from './LoadingConversation'
 
 const Conversation = ({ actualChat }) => {
-  useEffect(() => {
-    /* fetch(`http://localhost:8000/${actualChat}`, {
-      method: 'GET',
-      body: {
+  const dispatch = useDispatch()
+  const globalStoreMessages = useSelector(state => state.messages)
+  console.log(globalStoreMessages)
 
-      }
-    }) */
+  useEffect(() => {
+    dispatch(getMessages({
+      actualChat: actualChat.id
+    }))
     console.log('renderitzo conversa', actualChat)
-  }, [actualChat])
+
+    // Per començar el scroll a baix de tot
+    const conversationView = document.getElementById('conversationView')
+    conversationView.scrollTop = conversationView.scrollHeight
+  }, [actualChat?.id, dispatch])
 
   const missatges = [
     {
@@ -74,14 +82,19 @@ const Conversation = ({ actualChat }) => {
   ]
 
   return (
-    <CardBody className=''>
-      <section className='overflow-y-auto h-full justify-end'>
-        {missatges.map(missatge => {
-          return (
-            <Message key={missatge.id} date={missatge.date} receiverUser={missatge.receiverUser} transmitterUser={missatge.transmitterUser} message={missatge.message} />
-          )
-        })}
-      </section>
+    <CardBody id='conversationContainer' className=''>
+      {
+        globalStoreMessages.loadingConversationMessages
+          ? <LoadingConversation />
+          : <section id='conversationView' className='overflow-y-auto h-full justify-end'>
+            {missatges.map(missatge => {
+              return (
+                <Message key={missatge.id} date={missatge.date} receiverUser={missatge.receiverUser} transmitterUser={missatge.transmitterUser} message={missatge.message} />
+              )
+            })}
+            </section>
+      }
+
     </CardBody>
   )
 }

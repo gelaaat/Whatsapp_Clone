@@ -62,7 +62,6 @@ const UserHeader = () => {
       </NavbarContent>
       <Spacer x={1} />
       <NavbarContent>
-
         <ModalAddFriend visibleModal={visibleModal} setVisibleModal={setVisibleModal} />
       </NavbarContent>
       <Spacer x={1} />

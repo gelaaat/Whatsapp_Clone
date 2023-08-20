@@ -62,64 +62,6 @@ export const loginUser = createAsyncThunk(
   }
 )
 
-export const sendRequestFriend = createAsyncThunk(
-  'user/addFriend',
-  async ({ username }, { rejectWithValue }) => {
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        withCredentials: true
-      }
-
-      console.log('faig el fetch de afegir un friend')
-
-      const { data } = await axios.post(
-        'http://localhost:8000/api/addContact',
-        { username },
-        config
-      )
-
-      return data
-    } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message)
-      } else {
-        return rejectWithValue(error.message)
-      }
-    }
-  }
-)
-
-export const acceptRequestFriend = createAsyncThunk(
-  'user/acceptRequest',
-  async ({ contactId }, { rejectWithValue }) => {
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        withCredentials: true
-      }
-
-      const { data } = await axios.post(
-        'http://localhost:8000/api/acceptContactRequest',
-        { contactId },
-        config
-      )
-
-      return data
-    } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message)
-      } else {
-        return rejectWithValue(error.message)
-      }
-    }
-  }
-)
-
 export const logout = createAsyncThunk(
   'auth/logout',
   async ({}, { rejectWithValue }) => {

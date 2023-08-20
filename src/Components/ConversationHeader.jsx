@@ -5,8 +5,8 @@ import { useSelector, useDispatch } from 'react-redux'
 const ConversationHeader = () => {
   const [visibleModal, setVisibleModal] = useState(false)
 
-  const userInfo = {}
-  // const { userInfo } = useSelector(state => state.auth)
+  const globalStoreAuth = useSelector(state => state.auth)
+  const globalStoreChat = useSelector(state => state.chat)
   const dispatch = useDispatch()
 
   const handleUserMenu = (action) => {
@@ -22,6 +22,9 @@ const ConversationHeader = () => {
 
   return (
     <Navbar className='rounded-lg'>
+      <NavbarContent>
+        <p>{globalStoreAuth?.userInfo?.name}</p>
+      </NavbarContent>
       <NavbarContent justify='end'>
         <Dropdown>
           <DropdownTrigger>
@@ -39,12 +42,10 @@ const ConversationHeader = () => {
           >
             <DropdownItem key='profile' css={{ minHeight: '50px' }}>
               <p color='inherit'>
-                Signed in as
+                {}
               </p>
               <Spacer y={0.01} />
-              <p color='inherit'>
-                {userInfo?.email}
-              </p>
+              <p color='inherit' />
               <Spacer y={0.01} />
             </DropdownItem>
             <DropdownItem key='settings' withDivider>

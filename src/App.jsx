@@ -6,13 +6,19 @@ import SingUp from './Pages/SingUp'
 import LogIn from './Pages/LogIn'
 import UserPage from './Pages/UserPage'
 import { Divider } from '@nextui-org/react'
+import { useSelector } from 'react-redux/es/hooks/useSelector'
+import NavBarUserPage from './Components/NavBarUserPage'
 
 function App () {
+  const globalStoreAuth = useSelector(state => state.auth)
+
   return (
 
     <>
 
-      <NavBarHome />
+      {
+        globalStoreAuth.userInfo > 0 ? <NavBarUserPage /> : <NavBarHome />
+      }
       <Divider />
 
       <main className='flex justify-center items-center p-6'>
