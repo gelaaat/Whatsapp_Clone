@@ -1,8 +1,6 @@
 import axios from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
-const backendURL = 'http://localhost:8000'
-
 export const registerUser = createAsyncThunk(
   'auth/register',
   async ({ username, email, password }, { rejectWithValue }) => {
@@ -13,8 +11,10 @@ export const registerUser = createAsyncThunk(
         }
       }
 
+      console.log('fent el dispatch de registerUser')
+      console.log(`${import.meta.env.VITE_BACKEND_URL}/api/register-local`)
       const { data } = await axios.post(
-        `${backendURL}/api/register-local`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/register-local`,
         { username, email, password },
         config
       )
@@ -43,7 +43,7 @@ export const loginUser = createAsyncThunk(
       }
 
       const { data } = await axios.post(
-        'http://localhost:8000/api/login-local',
+        `${import.meta.env.VITE_BACKEND_URL}/api/login-local`,
         { username, password },
         config
       )
@@ -74,7 +74,7 @@ export const logout = createAsyncThunk(
       }
 
       const { data } = await axios.delete(
-        'http://localhost:8000/api/logout',
+        `${import.meta.env.VITE_BACKEND_URL}/api/logout`,
         config
       )
 

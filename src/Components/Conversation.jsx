@@ -9,6 +9,7 @@ import LoadingConversation from './LoadingConversation'
 const Conversation = ({ actualChat }) => {
   const dispatch = useDispatch()
   const globalStoreMessages = useSelector(state => state.messages)
+
   console.log(globalStoreMessages)
 
   useEffect(() => {
@@ -20,7 +21,7 @@ const Conversation = ({ actualChat }) => {
     // Per començar el scroll a baix de tot
     const conversationView = document.getElementById('conversationView')
     conversationView.scrollTop = conversationView.scrollHeight
-  }, [actualChat?.id, dispatch])
+  }, [actualChat, dispatch])
 
   const missatges = [
     {
@@ -92,7 +93,7 @@ const Conversation = ({ actualChat }) => {
                 <Message key={missatge.id} date={missatge.date} receiverUser={missatge.receiverUser} transmitterUser={missatge.transmitterUser} message={missatge.message} />
               )
             })}
-            </section>
+          </section>
       }
 
     </CardBody>

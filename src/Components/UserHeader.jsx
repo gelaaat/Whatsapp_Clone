@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Dropdown, DropdownTrigger, DropdownItem, DropdownMenu, Navbar, NavbarContent, Avatar, Spacer, Button } from '@nextui-org/react'
 import { useSelector, useDispatch } from 'react-redux'
-
+import { TbAdjustments } from 'react-icons/tb'
 import ModalAddFriend from './ModalAddFriend'
 
 const UserHeader = () => {
@@ -22,10 +22,8 @@ const UserHeader = () => {
     }
   }
 
-  const handlerOpenModal = () => setVisibleModal(true)
-
   return (
-    <Navbar className='rounded-lg'>
+    <Navbar className='rounded-lg justify-between'>
       <NavbarContent>
         <Dropdown>
           <DropdownTrigger>
@@ -43,19 +41,8 @@ const UserHeader = () => {
           >
             <DropdownItem key='profile' css={{ minHeight: '50px' }}>
               <p color='inherit'>
-                Signed in as
+                Change user icon
               </p>
-              <Spacer y={0.01} />
-              <p color='inherit'>
-                {userInfo?.email}
-              </p>
-              <Spacer y={0.01} />
-            </DropdownItem>
-            <DropdownItem key='settings' withDivider>
-              My Settings
-            </DropdownItem>
-            <DropdownItem key='logout' withDivider color='error'>
-              Log Out
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
@@ -65,7 +52,34 @@ const UserHeader = () => {
         <ModalAddFriend visibleModal={visibleModal} setVisibleModal={setVisibleModal} />
       </NavbarContent>
       <Spacer x={1} />
-      <NavbarContent />
+      <NavbarContent className='!justify-end items-center'>
+
+        <Dropdown className='flex items-center justify-end'>
+          <DropdownTrigger className=''>
+            <Button variant='faded' className='bg-blue-300'>
+              <TbAdjustments size={20} />
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu
+            aria-label='User settings'
+            color='secondary'
+            onAction={handleUserMenu}
+          >
+            <DropdownItem key='profile' css={{ minHeight: '50px' }}>
+              <p color='inherit'>
+                Signed in as
+              </p>
+              <Spacer y={0.01} />
+            </DropdownItem>
+            <DropdownItem key='settings' withDivider>
+              My Settings
+            </DropdownItem>
+            <DropdownItem key='logout' withDivider color='danger'>
+              Log Out
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </NavbarContent>
     </Navbar>
   )
 }

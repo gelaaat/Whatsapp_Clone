@@ -3,8 +3,9 @@ import { Card, CardBody, CardHeader, Divider } from '@nextui-org/react'
 import UserHeader from '../Components/UserHeader'
 import ChatButton from '../Components/ChatButton'
 import ConversationView from '../Components/ConversationView'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setActualChat } from '../features/chat/chatSlice'
+import { useNavigate } from 'react-router-dom'
 
 const UserPage = () => {
   const jsonExemple = [
@@ -22,10 +23,15 @@ const UserPage = () => {
 
   const [openConversation, setOpenConversation] = useState(false)
   const dispatch = useDispatch()
+  const globalStoreUser = useSelector(state => state.auth)
+  const navigate = useNavigate()
 
   useEffect(() => {
-    console.log('renderitzo userPage')
-  }, [])
+    if (!globalStoreUser.userInfo) {
+      navigate('/LogIn')
+    }
+    console.log(globalStoreUser?.userInfo)
+  }, [globalStoreUser, navigate])
 
   const handleChatView = ({ target }) => {
     console.log(target.id)

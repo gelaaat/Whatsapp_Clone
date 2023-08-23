@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Card, Input, Button, Spacer, CardHeader, Divider, CardBody } from '@nextui-org/react'
 import { EyeFilledIcon } from '../Components/EyeFilledIcon'
 import { EyeSlashFilledIcon } from '../Components/EyeSlashIcon'
+import { useDispatch, useSelector } from 'react-redux'
+import { loginUser } from '../features/auth/authActions'
+import { useNavigate } from 'react-router-dom'
 
 const LogIn = () => {
   const [username, setUsername] = useState('')
@@ -9,9 +12,24 @@ const LogIn = () => {
   const [email, setEmail] = useState('')
   const [isVisible, setIsVisible] = useState(false)
   const toggleVisibility = () => setIsVisible(!isVisible)
+  const dispatch = useDispatch()
+  const globalStoreUser = useSelector(state => state.auth)
+  const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    if (globalStoreUser?.successUserLogIn) {
+      navigate('/UserPage', { replace: true })
+    }
+  }, [globalStoreUser?.successUserLogIn, navigate])
 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const data = await dispatch(loginUser({
+      username,
+      password
+    }))
+
+    console.log(data)
   }
 
   const handleChangeUser = ({ target }) => {
@@ -24,8 +42,8 @@ const LogIn = () => {
 
   return (
 
-    <form action='' className='w-2/4'>
-      <Card className='max-w-md p-4'>
+    <form onSubmit={handleSubmit} className='w-2/4 felx justify-center items-center'>
+      <Card className='w-full p-4'>
         <CardHeader>
           <h1 className='text-2xl font-bold'>
             Log In
@@ -61,7 +79,8 @@ const LogIn = () => {
               </button>
               }
             type={isVisible ? 'text' : 'password'}
-            className='max-w-md'
+            className=''
+            onChange={handleChangePassword}
           />
           <Spacer y={2} />
         </CardBody>

@@ -17,7 +17,7 @@ const NavBarHome = () => {
     <Navbar
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-
+      className=''
     >
       <NavbarContent>
         <NavbarMenuToggle
@@ -31,24 +31,26 @@ const NavBarHome = () => {
       </NavbarContent>
       <NavbarContent className='hidden sm:flex gap-4' justify='center'>
         <NavbarItem isActive>
-          <Link color='foreground' href='#'>
+          <Link color='foreground' href='/Functions'>
             Functions
           </Link>
         </NavbarItem>
         <NavbarItem isActive>
-          <Link color='foreground' href='#'>
+          <Link color='foreground' href='/Privacy'>
             Privacy
           </Link>
         </NavbarItem>
         <NavbarItem isActive>
-          <Link color='foreground' href='#'>
+          <Link color='foreground' href='/About'>
             About
           </Link>
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify='end'>
         <NavbarItem>
-          <Link href='#'>Login</Link>
+          <Button as={Link} color='primary' href='LogIn' variant='flat'>
+            Log In
+          </Button>
         </NavbarItem>
         <NavbarItem>
           <Button as={Link} color='primary' href='SignUp' variant='flat'>

@@ -10,7 +10,7 @@ const initialState = {
   userInfo: initialStateOnLocalStorage || null,
   userSessionId: null,
   errorUser: null,
-  successUserSingIn: false,
+  successUserSignUp: false,
   successUserLogIn: false
 }
 
@@ -25,7 +25,7 @@ const authSlice = createSlice({
     },
     [registerUser.fulfilled]: (state, { payload }) => {
       state.loadingUser = false
-      state.successUserSingIn = true
+      state.successUserSignUp = true
     },
     [registerUser.rejected]: (state, { payload }) => {
       state.loadingUser = false
@@ -54,7 +54,7 @@ const authSlice = createSlice({
       state.userInfo = null
       state.successUserLogIn = false
       state.userSessionId = false
-      state.successUserSingIn = false
+      state.successUserSignUp = false
       window.localStorage.removeItem('userInfo')
     },
     [logout.rejected]: (state, action) => {

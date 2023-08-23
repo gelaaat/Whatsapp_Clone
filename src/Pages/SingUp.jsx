@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Card, Input, Button, Spacer, CardHeader, Divider, CardBody } from '@nextui-org/react'
 import { EyeFilledIcon } from '../Components/EyeFilledIcon'
 import { EyeSlashFilledIcon } from '../Components/EyeSlashIcon'
+import { useDispatch, useSelector } from 'react-redux'
+import { registerUser } from '../features/auth/authActions'
+import { useNavigate } from 'react-router-dom'
 
 const SingUp = () => {
   const [username, setUsername] = useState('')
@@ -10,13 +13,32 @@ const SingUp = () => {
   const [email, setEmail] = useState('')
   const [isVisible, setIsVisible] = useState(false)
   const toggleVisibility = () => setIsVisible(!isVisible)
+  const dispacth = useDispatch()
+  const globalStoreUser = useSelector(state => state.auth)
+  const navigate = useNavigate()
 
   useEffect(() => {
     console.log('renderitzo SignIn')
-  }, [])
+    console.log(`${import.meta.env.VITE_BACKEND_URL}/api/register-local`)
 
-  const handleSubmit = (e) => {
+    if (globalStoreUser?.successUserSignUp) {
+      navigate('/LogIn')
+    }
+  }, [globalStoreUser?.successUserSignUp, navigate])
 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (password !== secondPassword) {
+      console.log('Les pwd no son iguals')
+    } else {
+      const data = await dispacth(registerUser({
+        username,
+        email,
+        password
+      }))
+
+      console.log(data)
+    }
   }
 
   const handleChangeUser = ({ target }) => {
@@ -37,7 +59,7 @@ const SingUp = () => {
 
   return (
 
-    <form action='' className='w-2/4'>
+    <form onSubmit={handleSubmit} className='w-2/4'>
       <Card className='max-w-md p-4'>
         <CardHeader>
           <h1 className='text-2xl font-bold'>
@@ -88,6 +110,7 @@ const SingUp = () => {
               }
             type={isVisible ? 'text' : 'password'}
             className='max-w-md'
+            onChange={handleChangePassword}
           />
           <Spacer y={2} />
           <Input
@@ -107,6 +130,7 @@ const SingUp = () => {
               }
             type={isVisible ? 'text' : 'password'}
             className='max-w-md'
+            onChange={handleChangeSecondPassword}
           />
         </CardBody>
         <Spacer y={2} />
