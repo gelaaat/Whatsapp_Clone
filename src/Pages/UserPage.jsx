@@ -24,6 +24,7 @@ const UserPage = () => {
   const [openConversation, setOpenConversation] = useState(false)
   const dispatch = useDispatch()
   const globalStoreUser = useSelector(state => state.auth)
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -53,19 +54,22 @@ const UserPage = () => {
             </CardHeader>
             <Divider />
             <CardBody className='pt-0'>
-              {jsonExemple.map(chat => {
-                return (
+              {
 
-                  <ChatButton
-                    key={chat.id}
-                    idChat={chat.id}
-                    name={chat.name}
-                    lastMessage={chat.lastMessage}
-                    handleChatView={handleChatView}
-                  />
+                /* globalStoreUser.lastChats?.map(chat => {
+                  return (
 
-                )
-              })}
+                    <ChatButton
+                      key={chat.id}
+                      idChat={chat.id}
+                      name={chat.name}
+                      lastMessage={chat.lastMessage}
+                      handleChatView={handleChatView}
+                    />
+
+                  )
+                }) */
+              }
             </CardBody>
           </Card>
           : <>
@@ -78,7 +82,13 @@ const UserPage = () => {
                 {jsonExemple.map(chat => {
                   return (
 
-                    <ChatButton key={chat.id} idChat={chat.id} name={chat.name} lastMessage={chat.lastMessage} handleChatView={handleChatView} />
+                    <ChatButton
+                      key={chat.id}
+                      idChat={chat.id}
+                      name={chat.name}
+                      lastMessage={chat.lastMessage}
+                      handleChatView={handleChatView}
+                    />
 
                   )
                 })}

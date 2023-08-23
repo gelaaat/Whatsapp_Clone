@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import { Dropdown, DropdownTrigger, DropdownItem, DropdownMenu, Navbar, NavbarContent, Avatar, Spacer, Button } from '@nextui-org/react'
+import { Dropdown, DropdownTrigger, DropdownItem, DropdownMenu, Navbar, NavbarContent, Avatar, Spacer, Button, Input } from '@nextui-org/react'
 import { useSelector, useDispatch } from 'react-redux'
 import { TbAdjustments } from 'react-icons/tb'
 import ModalAddFriend from './ModalAddFriend'
+import { SearchIcon } from './SearchIcon'
+import { setDownSearchChat, setSearchChat } from '../features/chat/chatSlice'
 
 const UserHeader = () => {
   const [visibleModal, setVisibleModal] = useState(false)
 
-  const userInfo = {}
   // const { userInfo } = useSelector(state => state.auth)
   const dispatch = useDispatch()
 
@@ -19,6 +20,17 @@ const UserHeader = () => {
 
       default:
         break
+    }
+  }
+
+  const handleChangeSearch = ({ target }) => {
+    if (target.value === '') {
+      console.log('ENTRO EN EL DOWN')
+      dispatch(setDownSearchChat())
+    } else {
+      dispatch(setSearchChat({
+        searchChat: target.value
+      }))
     }
   }
 
@@ -52,6 +64,21 @@ const UserHeader = () => {
         <ModalAddFriend visibleModal={visibleModal} setVisibleModal={setVisibleModal} />
       </NavbarContent>
       <Spacer x={1} />
+      <NavbarContent as='div' className='items-center' justify='end'>
+        <Input
+          classNames={{
+            base: 'max-w-full sm:max-w-[10rem] h-10',
+            mainWrapper: 'h-full',
+            input: 'text-small',
+            inputWrapper: 'h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20'
+          }}
+          placeholder='Type to search...'
+          size='sm'
+          startContent={<SearchIcon size={18} />}
+          type='search'
+          onChange={handleChangeSearch}
+        />
+      </NavbarContent>
       <NavbarContent className='!justify-end items-center'>
 
         <Dropdown className='flex items-center justify-end'>

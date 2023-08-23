@@ -13,7 +13,7 @@ export const sendRequestFriend = createAsyncThunk(
       }
 
       const { data } = await axios.post(
-        'http://localhost:8000/api/user/addFriend',
+        'http://localhost:8000/api/addChat',
         { username },
         config
       )

@@ -4,7 +4,9 @@ const initialState = {
   actualChat: null,
   listOfChats: null,
   loadingListOfChats: false,
-  errorListOfChats: null
+  errorListOfChats: null,
+  searchActive: false,
+  searchChat: null
 }
 
 const chatSlice = createSlice({
@@ -14,6 +16,13 @@ const chatSlice = createSlice({
     setActualChat: (state, { payload }) => {
       state.actualChat = payload.actualChat
       console.log(payload)
+    },
+    setSearchChat: (state, { payload }) => {
+      state.searchChat = payload.searchChat
+      state.searchActive = true
+    },
+    setDownSearchChat: (state) => {
+      state.searchActive = false
     }
   },
   extraReducers: {
@@ -21,6 +30,6 @@ const chatSlice = createSlice({
   }
 })
 
-export const { setActualChat } = chatSlice.actions
+export const { setActualChat, setSearchChat, setDownSearchChat } = chatSlice.actions
 
 export default chatSlice.reducer
