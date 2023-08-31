@@ -4,11 +4,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { TbAdjustments } from 'react-icons/tb'
 import ModalAddFriend from './ModalAddFriend'
 import { SearchIcon } from './SearchIcon'
-import { setDownSearchChat, setSearchChat } from '../features/chat/chatSlice'
+import { setDownSearchChat, setSearchKey } from '../features/chat/chatSlice'
+import ModalAcceptFriend from './ModalAcceptFriend'
+import { setLastChats } from '../features/auth/authActions'
 
 const UserHeader = () => {
-  const [visibleModal, setVisibleModal] = useState(false)
-
   // const { userInfo } = useSelector(state => state.auth)
   const dispatch = useDispatch()
 
@@ -23,20 +23,19 @@ const UserHeader = () => {
     }
   }
 
-  const handleChangeSearch = ({ target }) => {
+  const handleChangeSearch = async ({ target }) => {
     if (target.value === '') {
-      console.log('ENTRO EN EL DOWN')
       dispatch(setDownSearchChat())
     } else {
-      dispatch(setSearchChat({
-        searchChat: target.value
+      await dispatch(setSearchKey({
+        searchKey: target.value
       }))
     }
   }
 
   return (
-    <Navbar className='rounded-lg justify-between'>
-      <NavbarContent>
+    <Navbar className='rounded-lg justify-between shrink'>
+      <NavbarContent className='flex !justify-center items-center'>
         <Dropdown>
           <DropdownTrigger>
             <Avatar
@@ -59,15 +58,19 @@ const UserHeader = () => {
           </DropdownMenu>
         </Dropdown>
       </NavbarContent>
-      <Spacer x={1} />
+
       <NavbarContent>
-        <ModalAddFriend visibleModal={visibleModal} setVisibleModal={setVisibleModal} />
+        <ModalAddFriend />
       </NavbarContent>
-      <Spacer x={1} />
+
+      <NavbarContent>
+        <ModalAcceptFriend />
+      </NavbarContent>
+
       <NavbarContent as='div' className='items-center' justify='end'>
         <Input
           classNames={{
-            base: 'max-w-full sm:max-w-[10rem] h-10',
+            // base: 'max-w-full sm:max-w-[10rem] h-10',
             mainWrapper: 'h-full',
             input: 'text-small',
             inputWrapper: 'h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20'
@@ -79,34 +82,7 @@ const UserHeader = () => {
           onChange={handleChangeSearch}
         />
       </NavbarContent>
-      <NavbarContent className='!justify-end items-center'>
 
-        <Dropdown className='flex items-center justify-end'>
-          <DropdownTrigger className=''>
-            <Button variant='faded' className='bg-blue-300'>
-              <TbAdjustments size={20} />
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu
-            aria-label='User settings'
-            color='secondary'
-            onAction={handleUserMenu}
-          >
-            <DropdownItem key='profile' css={{ minHeight: '50px' }}>
-              <p color='inherit'>
-                Signed in as
-              </p>
-              <Spacer y={0.01} />
-            </DropdownItem>
-            <DropdownItem key='settings' withDivider>
-              My Settings
-            </DropdownItem>
-            <DropdownItem key='logout' withDivider color='danger'>
-              Log Out
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-      </NavbarContent>
     </Navbar>
   )
 }

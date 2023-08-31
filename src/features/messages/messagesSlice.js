@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getMessages } from './messagesActions'
+// import { getMessages } from './messagesActions'
 
 const initialState = {
   actualChat: null,
@@ -15,7 +15,7 @@ const messagesSlice = createSlice({
 
   },
   extraReducers: {
-    [getMessages.pending]: state => {
+    /* [getMessages.pending]: state => {
       state.loadingConversationMessages = true
       state.error = false
     },
@@ -26,7 +26,7 @@ const messagesSlice = createSlice({
     [getMessages.rejected]: (state, { payload }) => {
       state.loadingConversationMessages = false
       state.error = payload
-    }
+    } */
   }
 })
 

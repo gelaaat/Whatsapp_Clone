@@ -6,6 +6,7 @@ import ConversationView from '../Components/ConversationView'
 import { useDispatch, useSelector } from 'react-redux'
 import { setActualChat } from '../features/chat/chatSlice'
 import { useNavigate } from 'react-router-dom'
+import UserListChats from '../Components/UserListChats'
 
 const UserPage = () => {
   const jsonExemple = [
@@ -31,14 +32,12 @@ const UserPage = () => {
     if (!globalStoreUser.userInfo) {
       navigate('/LogIn')
     }
-    console.log(globalStoreUser?.userInfo)
   }, [globalStoreUser, navigate])
 
   const handleChatView = ({ target }) => {
-    console.log(target.id)
+    console.log('handleChatView', target, target.id)
     const actualChat = target.id
     dispatch(setActualChat({ actualChat }))
-    setActualChat(target.id)
     setOpenConversation(true)
   }
 
@@ -48,28 +47,13 @@ const UserPage = () => {
 
       {
         !openConversation
-          ? <Card className='w-full md:w-6/12 h-full '>
+          ? <Card className='w-full lg:w-7/12 h-full '>
             <CardHeader>
               <UserHeader />
             </CardHeader>
             <Divider />
             <CardBody className='pt-0'>
-              {
-
-                /* globalStoreUser.lastChats?.map(chat => {
-                  return (
-
-                    <ChatButton
-                      key={chat.id}
-                      idChat={chat.id}
-                      name={chat.name}
-                      lastMessage={chat.lastMessage}
-                      handleChatView={handleChatView}
-                    />
-
-                  )
-                }) */
-              }
+              <UserListChats handleChatView={handleChatView} />
             </CardBody>
           </Card>
           : <>
@@ -79,19 +63,7 @@ const UserPage = () => {
               </CardHeader>
               <Divider />
               <CardBody className='pt-0'>
-                {jsonExemple.map(chat => {
-                  return (
-
-                    <ChatButton
-                      key={chat.id}
-                      idChat={chat.id}
-                      name={chat.name}
-                      lastMessage={chat.lastMessage}
-                      handleChatView={handleChatView}
-                    />
-
-                  )
-                })}
+                <UserListChats handleChatView={handleChatView} />
               </CardBody>
             </Card>
             <Card className='basis-32 shrink grow h-full'>

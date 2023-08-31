@@ -3,97 +3,36 @@ import { CardBody, Spinner } from '@nextui-org/react'
 import PropTypes from 'prop-types'
 import Message from './Message'
 import { useDispatch, useSelector } from 'react-redux'
-import { getMessages } from '../features/messages/messagesActions'
+import { getMessages } from '../features/chat/chatActions'
 import LoadingConversation from './LoadingConversation'
 
-const Conversation = ({ actualChat }) => {
+const Conversation = () => {
   const dispatch = useDispatch()
-  const globalStoreMessages = useSelector(state => state.messages)
-
-  console.log(globalStoreMessages)
+  // const globalStoreMessages = useSelector(state => state.messages)
+  const globalStoreChat = useSelector(state => state.chat)
 
   useEffect(() => {
     dispatch(getMessages({
-      actualChat: actualChat.id
+      actualChat: globalStoreChat.actualChat
     }))
-    console.log('renderitzo conversa', actualChat)
 
     // Per començar el scroll a baix de tot
     const conversationView = document.getElementById('conversationView')
     conversationView.scrollTop = conversationView.scrollHeight
-  }, [actualChat, dispatch])
-
-  const missatges = [
-    {
-      id: 1,
-      receiverUser: 'Arnau',
-      transmitterUser: 'Paula',
-      date: '01-08-2001 00:01',
-      message: 'Hola que tal'
-    },
-    {
-      id: 2,
-      receiverUser: 'Paula',
-      transmitterUser: 'Arnau',
-      date: '01-08-2001 00:02',
-      message: 'Estic molt be pero bueno he de remplenar el text i tu com estas?'
-    },
-    {
-      id: 3,
-      receiverUser: 'Paula',
-      transmitterUser: 'Arnau',
-      date: '01-08-2001 00:02',
-      message: 'Estic molt be pero bueno he de remplenar el text i tu com estas?'
-    },
-    {
-      id: 4,
-      receiverUser: 'Paula',
-      transmitterUser: 'Arnau',
-      date: '01-08-2001 00:02',
-      message: 'Estic molt be pero bueno he de remplenar el text i tu com estas?'
-    },
-    {
-      id: 5,
-      receiverUser: 'Paula',
-      transmitterUser: 'Arnau',
-      date: '01-08-2001 00:02',
-      message: 'Estic molt be pero bueno he de remplenar el text i tu com estas?'
-    },
-    {
-      id: 6,
-      receiverUser: 'Paula',
-      transmitterUser: 'Arnau',
-      date: '01-08-2001 00:02',
-      message: 'Estic molt be pero bueno he de remplenar el text i tu com estas?'
-    },
-    {
-      id: 7,
-      receiverUser: 'Paula',
-      transmitterUser: 'Arnau',
-      date: '01-08-2001 00:02',
-      message: 'Estic molt be pero bueno he de remplenar el text i tu com estas?'
-    },
-    {
-      id: 8,
-      receiverUser: 'Paula',
-      transmitterUser: 'Arnau',
-      date: '01-08-2001 00:02',
-      message: 'Estic molt be pero bueno he de remplenar el text i tu com estas?'
-    }
-  ]
+  }, [globalStoreChat.actualChat, dispatch])
 
   return (
     <CardBody id='conversationContainer' className=''>
       {
-        globalStoreMessages.loadingConversationMessages
+        globalStoreChat.loadingConversationMessages
           ? <LoadingConversation />
           : <section id='conversationView' className='overflow-y-auto h-full justify-end'>
-            {missatges.map(missatge => {
+            {globalStoreChat?.infoActualChat?.messages.map(missatge => {
               return (
-                <Message key={missatge.id} date={missatge.date} receiverUser={missatge.receiverUser} transmitterUser={missatge.transmitterUser} message={missatge.message} />
+                <Message key={missatge._id} date={missatge.date} receiverUser={missatge.receiverUser} transmitterUser={missatge.transmitterUser.username} message={missatge.message} />
               )
             })}
-          </section>
+            </section>
       }
 
     </CardBody>

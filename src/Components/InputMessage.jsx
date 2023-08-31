@@ -1,27 +1,50 @@
 import { Button, Input, Spacer } from '@nextui-org/react'
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { sendMessage } from '../features/chat/chatActions'
+import { setLastChats } from '../features/auth/authActions'
 
 const InputMessage = () => {
-  const globalStoreMessages = useSelector(state => state.messages)
+  const [message, setMessage] = useState('')
+  const globalStoreChat = useSelector(state => state.chat)
+  const dispatch = useDispatch()
 
   const handleChangeMessage = ({ target }) => {
     const message = target.value
+    console.log(message)
+    setMessage(message)
+  }
+
+  const handleSubmitSendMessage = async (e) => {
+    e.preventDefault()
+    console.log(message)
+    console.log('enviant missatgess')
+    if (message.length > 0) {
+      await dispatch(sendMessage({
+        message,
+        chatId: globalStoreChat.actualChat
+      }))
+      dispatch(setLastChats({
+        lastChatId: globalStoreChat.actualChat
+      }))
+      setMessage('')
+    }
   }
 
   return (
-    <form className='flex grow shrink'>
+    <form onSubmit={handleSubmitSendMessage} className='flex grow shrink items-center m-1'>
       <Input
         className='flex grow shrink basis-9/12'
-        isDisabled={globalStoreMessages.loadingConversationMessages || globalStoreMessages.error}
+        isDisabled={globalStoreChat.loadingConversationMessages || globalStoreChat.errorMessages}
         placeholder='Enter your message'
         onChange={handleChangeMessage}
+        value={message}
       />
 
       <Spacer x={3} />
       <Button
-        isDisabled={globalStoreMessages.loadingConversationMessages || globalStoreMessages.error}
-        color='primary' variant='solid'
+        isDisabled={globalStoreChat.loadingConversationMessages || globalStoreChat.errorMessages}
+        color='primary' variant='solid' type='submit'
       >
         Send
       </Button>

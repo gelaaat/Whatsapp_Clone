@@ -13,7 +13,7 @@ export const sendRequestFriend = createAsyncThunk(
       }
 
       const { data } = await axios.post(
-        'http://localhost:8000/api/addChat',
+        `${import.meta.env.VITE_BACKEND_URL}/api/addChat`,
         { username },
         config
       )
@@ -31,7 +31,7 @@ export const sendRequestFriend = createAsyncThunk(
 
 export const acceptRequestFriend = createAsyncThunk(
   'user/acceptRequest',
-  async ({ contactId }, { rejectWithValue }) => {
+  async ({ chatName }, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
@@ -41,8 +41,8 @@ export const acceptRequestFriend = createAsyncThunk(
       }
 
       const { data } = await axios.post(
-        'http://localhost:8000/api/acceptContactRequest',
-        { contactId },
+        `${import.meta.env.VITE_BACKEND_URL}/api/acceptChatRequest`,
+        { chatName },
         config
       )
 

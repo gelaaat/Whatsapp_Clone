@@ -88,3 +88,31 @@ export const logout = createAsyncThunk(
     }
   }
 )
+
+export const setLastChats = createAsyncThunk(
+  'auth/lastChats',
+  async ({ lastChatId }, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true
+      }
+
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/setLastChat`,
+        { lastChatId },
+        config
+      )
+
+      return data
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message)
+      } else {
+        return rejectWithValue(error.message)
+      }
+    }
+  }
+)

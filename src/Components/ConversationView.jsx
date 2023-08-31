@@ -14,9 +14,9 @@ const ConversationView = () => {
         <ConversationHeader />
       </CardHeader>
       <Divider />
-      <Conversation actualChat={globalStoreChat.actualChat} />
+      <Conversation />
       <Divider />
-      <CardFooter>
+      <CardFooter className='flex items-center overflow-none'>
         <InputMessage />
       </CardFooter>
     </>

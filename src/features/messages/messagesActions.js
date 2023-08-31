@@ -1,6 +1,6 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
-
+/*
 export const getMessages = createAsyncThunk(
   'messages/getMessages',
   async ({ actualChat }, { rejectWithValue }) => {
@@ -9,14 +9,13 @@ export const getMessages = createAsyncThunk(
         headers: {
           'Content-Type': 'application/json'
         },
-        withCredentials: true,
-        params: {
-
-        }
+        withCredentials: true
       }
 
+      console.log('enviant getMessages amb id', actualChat)
+
       const { data } = await axios.get(
-        'http://localhost:8000/api/messages/getMessages',
+        `${import.meta.env.VITE_BACKEND_URL}/api/getChatMessages/${actualChat}`,
         config
       )
 
@@ -30,3 +29,4 @@ export const getMessages = createAsyncThunk(
     }
   }
 )
+*/

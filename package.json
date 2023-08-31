@@ -1,6 +1,7 @@
 {
   "name": "client",
   "private": true,
+  "homepage": "https://gelaaat.github.io/Whatsapp_Clone",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
