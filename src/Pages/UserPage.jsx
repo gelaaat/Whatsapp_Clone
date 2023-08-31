@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Card, CardBody, CardHeader, Divider } from '@nextui-org/react'
 import UserHeader from '../Components/UserHeader'
-import ChatButton from '../Components/ChatButton'
 import ConversationView from '../Components/ConversationView'
 import { useDispatch, useSelector } from 'react-redux'
 import { setActualChat } from '../features/chat/chatSlice'
@@ -9,19 +8,6 @@ import { useNavigate } from 'react-router-dom'
 import UserListChats from '../Components/UserListChats'
 
 const UserPage = () => {
-  const jsonExemple = [
-    {
-      id: 1,
-      name: 'Paula',
-      lastMessage: 'Hola'
-    },
-    {
-      id: 2,
-      name: 'Kairo',
-      lastMessage: 'Ei que tal'
-    }
-  ]
-
   const [openConversation, setOpenConversation] = useState(false)
   const dispatch = useDispatch()
   const globalStoreUser = useSelector(state => state.auth)
@@ -32,6 +18,8 @@ const UserPage = () => {
     if (!globalStoreUser.userInfo) {
       navigate('/LogIn')
     }
+
+    console.log(process.env.NODE_ENV)
   }, [globalStoreUser, navigate])
 
   const handleChatView = ({ target }) => {

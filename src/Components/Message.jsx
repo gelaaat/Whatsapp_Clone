@@ -13,7 +13,7 @@ const Message = ({ receiverUser, transmitterUser, date, message }) => {
   return (
 
     <article className={transmitterUser === globalStoreAuth.userInfo.username ? 'flex justify-end items-end my-2' : 'flex items-start my-2'}>
-      <Card className='max-w-xs py-1 px-2 bg-blue-500 sm:max-w-md'>
+      <Card className='max-w-xs py-2 px-2 bg-blue-500 sm:max-w-md'>
         {message}
         <CardFooter className={transmitterUser === globalStoreAuth.userInfo.username ? 'flex justify-end items-end py-1 px-1' : 'flex items-start py-1 px-1'}>
           <p className='decoration-white text-xs'>

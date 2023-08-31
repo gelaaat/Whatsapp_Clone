@@ -116,3 +116,14 @@ export const setLastChats = createAsyncThunk(
     }
   }
 )
+
+export const openSocketConnection = createAsyncThunk(
+  'auth/openSocketConnection',
+  async ({ }, { rejectWithValue }) => {
+    try {
+
+    } catch (error) {
+
+    }
+  }
+)
